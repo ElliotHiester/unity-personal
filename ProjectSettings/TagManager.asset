@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Walls
   - GenerationManager
+  - UIManager
   layers:
   - Default
   - TransparentFX
