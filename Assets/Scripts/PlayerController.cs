@@ -10,10 +10,15 @@ public class PlayerController : MonoBehaviour
 
     private Vector2 movement;
 
+    public int maxHealth;
+    public int health;
+
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        
+        health = maxHealth;
     }
 
     // Update is called once per frame
@@ -23,8 +28,5 @@ public class PlayerController : MonoBehaviour
         movement.y = Input.GetAxisRaw("Vertical");
     }
 
-    private void FixedUpdate()
-    {
-        rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
-    }
+    private void FixedUpdate() => rb.MovePosition(rb.position + moveSpeed * Time.fixedDeltaTime * movement);
 }
