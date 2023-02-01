@@ -13,33 +13,28 @@ public class UIManager : MonoBehaviour
     List<GameObject> heartObjects = new List<GameObject>();
     private GameObject heart;
     private RectTransform heartTransform;
+    private PlayerController playerController = null;
 
     [SerializeField] private int maxHealth = 5;
-    private int currentHealth;
-
-    void Start()
-    {
-        currentHealth = maxHealth;
-        UpdateHearts();
-    }
+    [SerializeField] private int currentHealth;
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            currentHealth--;
-            UpdateHearts();
-        }
+        playerController ??= GameObject.FindWithTag("Player")?.GetComponent<PlayerController>();
 
-        if (Input.GetKeyDown(KeyCode.J))
+        if(playerController is not null && heartObjects.Count == 0)
         {
-            currentHealth++;
             UpdateHearts();
         }
     }
 
     public void UpdateHearts()
     {
+        if (playerController is null) return;
+
+        currentHealth = playerController.health;
+        maxHealth = playerController.maxHealth;
+
         if (heartObjects.Count == 0) //Generates hearts if there arent any yet
         {
             for (int i = 0; i < maxHealth; i++)
@@ -60,15 +55,7 @@ public class UIManager : MonoBehaviour
         for (int i = 0; i < maxHealth; i++)
         {
             heart = heartObjects[i];
-
-            if (i < currentHealth)
-            {
-                heart.GetComponent<Image>().color = redHeart;
-            }
-            else
-            {
-                heart.GetComponent<Image>().color = greyedHeart;
-            }
+            heart.GetComponent<Image>().color = i < currentHealth ? redHeart : greyedHeart;
         }
     }
 }

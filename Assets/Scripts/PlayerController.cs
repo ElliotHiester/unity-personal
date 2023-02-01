@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour
 
     private Vector2 movement;
 
+    private UIManager UIManager;
+
     public int maxHealth;
     public int health;
 
@@ -24,9 +26,24 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        UIManager ??= GameObject.FindWithTag("UIManager")?.GetComponent<UIManager>();
+
         movement.x = Input.GetAxisRaw("Horizontal");
         movement.y = Input.GetAxisRaw("Vertical");
+
+
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+           health--;
+           UIManager.UpdateHearts();
+        }
+
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            health++;
+            UIManager.UpdateHearts();
+        }
     }
 
-    private void FixedUpdate() => rb.MovePosition(rb.position + moveSpeed * Time.fixedDeltaTime * movement);
+    private void FixedUpdate() => rb.MovePosition(rb.position + moveSpeed * Time.fixedDeltaTime * movement); 
 }
