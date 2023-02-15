@@ -11,7 +11,6 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Color redHeart;
 
     List<GameObject> heartObjects = new List<GameObject>();
-    private GameObject heart;
     private RectTransform heartTransform;
     private PlayerController playerController = null;
 
@@ -30,6 +29,8 @@ public class UIManager : MonoBehaviour
 
     public void UpdateHearts()
     {
+        GameObject heart;
+
         if (playerController is null) return;
 
         currentHealth = playerController.health;
