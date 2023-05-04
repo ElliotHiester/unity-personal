@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DentedPixel;
+using System;
 
 public class UIManager : MonoBehaviour
 {
@@ -9,6 +11,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Canvas canvas;
     [SerializeField] private Color greyedHeart;
     [SerializeField] private Color redHeart;
+
+    [SerializeField] private GameObject reloadBarBG;
+    [SerializeField] private GameObject reloadBar;
 
     List<GameObject> heartObjects = new List<GameObject>();
     private RectTransform heartTransform;
@@ -25,6 +30,18 @@ public class UIManager : MonoBehaviour
         {
             UpdateHearts();
         }
+    }
+
+    public void Reload(float time)
+    {
+        reloadBarBG.SetActive(true);
+        LeanTween.scaleX(reloadBar, 0, time).setOnComplete(ReloadCallBack);
+    }
+
+    private void ReloadCallBack()
+    {
+        reloadBarBG.SetActive(false);
+        LeanTween.scaleX(reloadBar, 1, 0);
     }
 
     public void UpdateHearts()
@@ -44,9 +61,9 @@ public class UIManager : MonoBehaviour
                 heartObjects.Add(heart);
                 heartTransform = heart.GetComponent<RectTransform>();
 
-                float heartX = ((heartObjects.Count - 1) * heartTransform.sizeDelta.x) + 65; //linear function to calculate the position of the heart
+                float heartX = ((heartObjects.Count - 1) * heartTransform.sizeDelta.x) + 35; //linear function to calculate the position of the heart
 
-                heartTransform.anchoredPosition = new Vector3(heartX, -55, 0);
+                heartTransform.anchoredPosition = new Vector3(heartX, -25, 0);
             }
         }
 

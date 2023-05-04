@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerShooting : MonoBehaviour
 {
+    private UIManager UIManager;
     
     [SerializeField] private Transform shootPos;
     [SerializeField] private GameObject bulletPrefab;
@@ -29,6 +30,8 @@ public class PlayerShooting : MonoBehaviour
 
     protected virtual void Start()
     {
+        UIManager = GameObject.FindWithTag("UIManager")?.GetComponent<UIManager>();
+
         currentAmmo = maxAmmo;
         currentClipAmmo = maxClipAmmo;
     }
@@ -61,6 +64,7 @@ public class PlayerShooting : MonoBehaviour
     IEnumerator ReloadDelay()
     {
         isReloading = true;
+        UIManager.Reload(reloadTime);
         yield return new WaitForSeconds(reloadTime);
         currentClipAmmo = (currentAmmo > maxClipAmmo) ? maxClipAmmo : currentAmmo;
         isReloading = false;
