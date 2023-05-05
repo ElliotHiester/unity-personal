@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DentedPixel;
 using System;
+using TMPro;
 
 public class UIManager : MonoBehaviour
 {
@@ -14,6 +15,9 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private GameObject reloadBarBG;
     [SerializeField] private GameObject reloadBar;
+
+    public TextMeshProUGUI maxAmmoDisplay;
+    public Slider clipAmmoSlider;
 
     List<GameObject> heartObjects = new List<GameObject>();
     private RectTransform heartTransform;

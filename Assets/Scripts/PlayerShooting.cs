@@ -23,10 +23,14 @@ public class PlayerShooting : MonoBehaviour
     [SerializeField] private float shotSpread;
     private float accuracy;
 
+    [SerializeField] private float kickBack;
+
     [SerializeField] private bool isAutomatic;
     
     private bool isReloading = false;
     Coroutine reloadDelay;
+
+    private PlayerController player;
 
     protected virtual void Start()
     {
@@ -39,23 +43,36 @@ public class PlayerShooting : MonoBehaviour
     // Update is called once per frame
     protected virtual void Update()
     {
+        player ??= GameObject.FindWithTag("Player")?.GetComponent<PlayerController>();
+
+        UIManager.maxAmmoDisplay.text = currentAmmo.ToString() + "/" + maxAmmo.ToString();
+        UIManager.clipAmmoSlider.maxValue = maxClipAmmo;
+        UIManager.clipAmmoSlider.value = currentClipAmmo;
+
         fireCounter += Time.deltaTime;
-        if((currentAmmo > 0) && !isReloading && (fireCounter > fireRate))
+        if ((currentAmmo > 0) && !isReloading && (fireCounter > fireRate)) 
         {
-            if(!isAutomatic && Input.GetMouseButtonDown(0))
+            if (currentClipAmmo == 0)
             {
-                fireCounter = 0.0f;
-                Shoot();
+                Reload();
             }
-            
-            if(isAutomatic && Input.GetMouseButton(0))
+            else
             {
-                fireCounter = 0.0f;
-                Shoot();
+                if (!isAutomatic && Input.GetMouseButtonDown(0))
+                {
+                    fireCounter = 0.0f;
+                    Shoot();
+                }
+
+                if (isAutomatic && Input.GetMouseButton(0))
+                {
+                    fireCounter = 0.0f;
+                    Shoot();
+                }
             }
         }
 
-        if (!isReloading && (currentClipAmmo != maxClipAmmo) && ((currentClipAmmo <= 0 && currentAmmo != 0) || Input.GetMouseButtonDown(1)))
+        if (!isReloading && (currentClipAmmo != maxClipAmmo) && ((currentClipAmmo < 0 && currentAmmo != 0 && Input.GetMouseButtonDown(0)) || Input.GetMouseButtonDown(1)))
         {
             Reload();
         }
@@ -77,8 +94,8 @@ public class PlayerShooting : MonoBehaviour
 
     protected virtual void Shoot()
     {
-        currentAmmo--;
         currentClipAmmo--;
+        currentAmmo--;
 
         GameObject bullet = Instantiate(bulletPrefab, shootPos.position, Quaternion.identity);
         Rigidbody2D bulletRb = bullet.GetComponent<Rigidbody2D>();
@@ -88,5 +105,7 @@ public class PlayerShooting : MonoBehaviour
         shootPos.Rotate(0, 0, accuracy); //randomize shootPos rotation for accuracy customization
         bulletRb.AddForce(-shootPos.right * bulletForce, ForceMode2D.Impulse);
         shootPos.Rotate(0, 0, -accuracy); //reset shootPos rotation
+
+        player.KickBack(kickBack);
     }
 }
