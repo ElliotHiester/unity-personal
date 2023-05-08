@@ -9,6 +9,7 @@ TagManager:
   - UIManager
   - PlayerShootPos
   - WeaponPickup
+  - UIGunManager
   layers:
   - Default
   - TransparentFX
