@@ -164,5 +164,5 @@ MonoBehaviour:
   gunList: []
   startGun: {fileID: 174867828750489003, guid: cde773b445c0c0f4a82be0f552e7c3ab, type: 3}
   tempStartGun: {fileID: 174867828750489003, guid: 9792e36330346414eb6acddee58638d6, type: 3}
-  maxNumGuns: 1
+  maxNumGuns: 3
   clipRechargeTime: 5

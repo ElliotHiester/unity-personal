@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class PlayerGunManager : MonoBehaviour
 {
-    public List<GameObject> gunList = new List<GameObject>();
+    [System.NonSerialized] public List<GameObject> gunList = new List<GameObject>();
 
     public GameObject startGun;
     public GameObject tempStartGun;
 
-    private int currentGunIndex;
+    [System.NonSerialized] public int currentGunIndex;
 
     [SerializeField] private int maxNumGuns;
 
@@ -17,6 +17,7 @@ public class PlayerGunManager : MonoBehaviour
     private bool clipRecharged = false;
 
     private UIManager UIManager;
+    private UIGunManager UIGunManager;
 
     private bool isPickupPressed = false;
 
@@ -26,6 +27,7 @@ public class PlayerGunManager : MonoBehaviour
     void Start()
     {
         UIManager = GameObject.FindWithTag("UIManager")?.GetComponent<UIManager>();
+        UIGunManager = GameObject.FindWithTag("UIGunManager")?.GetComponent<UIGunManager>();
 
         AddGun(startGun);
         //AddGun(tempStartGun);
@@ -35,10 +37,9 @@ public class PlayerGunManager : MonoBehaviour
     {
         if (isPickupPressed && collision.gameObject.CompareTag("WeaponPickup"))
         {
-            Debug.Log("pickup");
             var gunScript = collision.gameObject.GetComponent<WeaponPickup>();
 
-            AddGun(gunScript.weapon);
+            AddGun(gunScript.weapon, gunScript.storedAmmo);
 
             Destroy(collision.gameObject);
 
@@ -87,7 +88,7 @@ public class PlayerGunManager : MonoBehaviour
     }
 
 
-    public void AddGun(GameObject gun)
+    public void AddGun(GameObject gun, int storedAmmo = -1)
     {
         if(gunList.Count >= maxNumGuns)
         {
@@ -95,11 +96,18 @@ public class PlayerGunManager : MonoBehaviour
             var previousGunScript = previousSelectedGun.transform.GetChild(0)?.GetComponent<PlayerShooting>();
 
             gunList.RemoveAt(currentGunIndex);
-            Instantiate(previousGunScript.gunPickup, transform.position, Quaternion.identity);
+            var gunPickup = Instantiate(previousGunScript.gunPickup, transform.position, Quaternion.identity); // Instantiate pickup for gun (drop pickup when removed from inventory)
+            var gunPickupScript = gunPickup.GetComponent<WeaponPickup>(); //get gun pickup script
+            gunPickupScript.storedAmmo = previousGunScript.currentAmmo; //store the ammount of ammo in the pickup 
             Destroy(previousSelectedGun);
         } 
 
         var newGun = Instantiate(gun, transform.position, Quaternion.identity);
+        var newGunScript = newGun.transform.GetChild(0)?.GetComponent<PlayerShooting>();
+
+        if (storedAmmo >= 0 && newGunScript is not null) // if storedAmmo is set and newGunScript is not null
+            newGunScript.currentAmmo = storedAmmo; // set the new gun ammo equal to the ammo stored in the pickup from last use
+            
         newGun.transform.SetParent(transform);
         gunList.Add(newGun);
         currentGunIndex = gunList.Count - 1;
@@ -146,5 +154,7 @@ public class PlayerGunManager : MonoBehaviour
                 }
             }
         }
+
+        UIGunManager.ChangeGun();
     }
 }

@@ -28,7 +28,7 @@ public class UIManager : MonoBehaviour
 
     void Update()
     {
-        playerController ??= GameObject.FindWithTag("Player")?.GetComponent<PlayerController>();
+        playerController = playerController != null ? playerController : GameObject.FindWithTag("Player")?.GetComponent<PlayerController>();
 
         if(playerController is not null && heartObjects.Count == 0)
         {

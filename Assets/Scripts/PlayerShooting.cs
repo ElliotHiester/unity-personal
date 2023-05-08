@@ -8,7 +8,7 @@ public class PlayerShooting : MonoBehaviour
     
     [SerializeField] private Transform shootPos;
     [SerializeField] private GameObject bulletPrefab;
-    [SerializeField] public float bulletForce = 40f;
+    public float bulletForce = 40f;
     
     [SerializeField] private float fireRate;
     [SerializeField] private float reloadTime;
@@ -17,8 +17,8 @@ public class PlayerShooting : MonoBehaviour
     [SerializeField] private int maxClipAmmo;
     private int currentClipAmmo;
 
-    [SerializeField] private int maxAmmo;
-    private int currentAmmo;
+    public int maxAmmo;
+    [System.NonSerialized] public int currentAmmo = -1;
 
     [SerializeField] private float shotSpread;
     private float accuracy;
@@ -27,9 +27,9 @@ public class PlayerShooting : MonoBehaviour
 
     [SerializeField] private bool isAutomatic;
     
-    public bool isReloading = false;
+    [System.NonSerialized] public bool isReloading = false;
 
-    [SerializeField] private GameObject gunOverlay;
+    public GameObject gunOverlay;
     public GameObject gunPickup;
 
     private Rigidbody2D playerRb;
@@ -40,7 +40,11 @@ public class PlayerShooting : MonoBehaviour
     {
         UIManager = GameObject.FindWithTag("UIManager")?.GetComponent<UIManager>();
 
-        currentAmmo = maxAmmo;
+        if (currentAmmo < 0) // if ammo has not been set by the pickup, set it to the max ammo
+        {
+            currentAmmo = maxAmmo;
+        } 
+
         currentClipAmmo = maxClipAmmo;
     }
 
