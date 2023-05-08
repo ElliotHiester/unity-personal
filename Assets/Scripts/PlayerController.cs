@@ -11,9 +11,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 movement;
 
     private UIManager UIManager;
-
-    private GameObject shootPos;
-    [SerializeField] private GameObject startGun;
+    private PlayerGunManager gunManager;
 
     public int maxHealth;
     public int health;
@@ -22,17 +20,17 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        /*gunManager = GetComponent<PlayerGunManager>();*/
         
         health = maxHealth;
 
-        var gun = Instantiate(startGun, transform.position, Quaternion.identity);
-        gun.transform.SetParent(transform);
+        /*var gun = Instantiate(gunManager.startGun, transform.position, Quaternion.identity);
+        gun.transform.SetParent(transform);*/
     }
 
     // Update is called once per frame
     void Update()
     {
-        shootPos ??= GameObject.FindWithTag("PlayerShootPos");
         UIManager ??= GameObject.FindWithTag("UIManager")?.GetComponent<UIManager>();
 
         movement.x = Input.GetAxisRaw("Horizontal");
@@ -53,9 +51,4 @@ public class PlayerController : MonoBehaviour
     }
 
     private void FixedUpdate() => rb.MovePosition(rb.position + moveSpeed * Time.fixedDeltaTime * movement); 
-
-    public void KickBack(float kickBack)
-    {
-        rb.AddForce(shootPos.transform.right * kickBack, ForceMode2D.Force);
-    }
 }

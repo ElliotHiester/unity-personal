@@ -48,6 +48,13 @@ public class UIManager : MonoBehaviour
         LeanTween.scaleX(reloadBar, 1, 0);
     }
 
+    public void StopReload()
+    {
+        LeanTween.cancel(reloadBar);
+        reloadBarBG.SetActive(false);
+        LeanTween.scaleX(reloadBar, 1, 0);
+    }
+
     public void UpdateHearts()
     {
         GameObject heart;

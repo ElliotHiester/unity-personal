@@ -27,10 +27,14 @@ public class PlayerShooting : MonoBehaviour
 
     [SerializeField] private bool isAutomatic;
     
-    private bool isReloading = false;
-    Coroutine reloadDelay;
+    public bool isReloading = false;
 
-    private PlayerController player;
+    [SerializeField] private GameObject gunOverlay;
+    public GameObject gunPickup;
+
+    private Rigidbody2D playerRb;
+
+    private Coroutine reloadCoroutine;
 
     protected virtual void Start()
     {
@@ -43,7 +47,7 @@ public class PlayerShooting : MonoBehaviour
     // Update is called once per frame
     protected virtual void Update()
     {
-        player ??= GameObject.FindWithTag("Player")?.GetComponent<PlayerController>();
+        playerRb ??= GameObject.FindWithTag("Player")?.GetComponent<Rigidbody2D>();
 
         UIManager.maxAmmoDisplay.text = currentAmmo.ToString() + "/" + maxAmmo.ToString();
         UIManager.clipAmmoSlider.maxValue = maxClipAmmo;
@@ -52,7 +56,7 @@ public class PlayerShooting : MonoBehaviour
         fireCounter += Time.deltaTime;
         if ((currentAmmo > 0) && !isReloading && (fireCounter > fireRate)) 
         {
-            if (currentClipAmmo == 0)
+            if (currentClipAmmo == 0 && Input.GetMouseButton(0))
             {
                 Reload();
             }
@@ -72,7 +76,9 @@ public class PlayerShooting : MonoBehaviour
             }
         }
 
-        if (!isReloading && (currentClipAmmo != maxClipAmmo) && ((currentClipAmmo < 0 && currentAmmo != 0 && Input.GetMouseButtonDown(0)) || Input.GetMouseButtonDown(1)))
+        if (!isReloading
+            && (currentClipAmmo != maxClipAmmo)
+            && ((currentClipAmmo < 0 && currentAmmo != 0 && Input.GetMouseButtonDown(0)) || Input.GetMouseButtonDown(1) && currentAmmo != 0))
         {
             Reload();
         }
@@ -89,7 +95,19 @@ public class PlayerShooting : MonoBehaviour
 
     protected virtual void Reload()
     {
-        reloadDelay = StartCoroutine(ReloadDelay());
+        reloadCoroutine = StartCoroutine(ReloadDelay());
+    }
+
+    public virtual void StopReload()
+    {
+        isReloading = false;
+        if(reloadCoroutine is not null)
+            StopCoroutine(reloadCoroutine);
+    }
+
+    public virtual void RechargeAmmo() //after 5 seconds of gun not being used
+    {
+        currentClipAmmo = (currentAmmo > maxClipAmmo) ? maxClipAmmo : currentAmmo;
     }
 
     protected virtual void Shoot()
@@ -100,12 +118,12 @@ public class PlayerShooting : MonoBehaviour
         GameObject bullet = Instantiate(bulletPrefab, shootPos.position, Quaternion.identity);
         Rigidbody2D bulletRb = bullet.GetComponent<Rigidbody2D>();
 
-        accuracy = Random.Range(-shotSpread, shotSpread); 
+        accuracy = Random.Range(-shotSpread, shotSpread);
 
         shootPos.Rotate(0, 0, accuracy); //randomize shootPos rotation for accuracy customization
         bulletRb.AddForce(-shootPos.right * bulletForce, ForceMode2D.Impulse);
         shootPos.Rotate(0, 0, -accuracy); //reset shootPos rotation
 
-        player.KickBack(kickBack);
+        playerRb.AddForce(shootPos.transform.right * kickBack, ForceMode2D.Force);
     }
 }

@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 9074290479699689925}
   - component: {fileID: 5253978660854675976}
-  - component: {fileID: 6197010886473858109}
   m_Layer: 0
   m_Name: Part
   m_TagString: Untagged
@@ -85,28 +84,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &6197010886473858109
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 21384418427874247}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1d45e87d76649b4f88d6db3b3017356, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shootPos: {fileID: 0}
-  bulletPrefab: {fileID: 1164284738479998248, guid: 7348a5fda102c8a40883abe96c5c5fa3, type: 3}
-  bulletForce: 40
-  fireRate: 0.04
-  reloadTime: 2
-  maxClipAmmo: 100
-  maxAmmo: 1000
-  shotSpread: 20
-  kickBack: 800
-  isAutomatic: 1
 --- !u!1 &174867828750489003
 GameObject:
   m_ObjectHideFlags: 0
@@ -132,8 +109,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 174867828750489003}
   m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0.038487, y: -0.66957, z: 0}
+  m_LocalScale: {x: 1.4, y: 1.4, z: 1.4}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3125181908070362574}
@@ -169,7 +146,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5213547143901366004}
   - component: {fileID: 8980758604825296113}
-  - component: {fileID: 8037642761631650658}
   m_Layer: 0
   m_Name: Part (2)
   m_TagString: Untagged
@@ -244,28 +220,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &8037642761631650658
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2164879155092709316}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1d45e87d76649b4f88d6db3b3017356, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shootPos: {fileID: 0}
-  bulletPrefab: {fileID: 1164284738479998248, guid: 7348a5fda102c8a40883abe96c5c5fa3, type: 3}
-  bulletForce: 40
-  fireRate: 0.04
-  reloadTime: 2
-  maxClipAmmo: 100
-  maxAmmo: 1000
-  shotSpread: 20
-  kickBack: 800
-  isAutomatic: 1
 --- !u!1 &2898931075354247709
 GameObject:
   m_ObjectHideFlags: 0
@@ -368,12 +322,15 @@ MonoBehaviour:
   bulletPrefab: {fileID: 1164284738479998248, guid: 7348a5fda102c8a40883abe96c5c5fa3, type: 3}
   bulletForce: 40
   fireRate: 0.04
-  reloadTime: 2
+  reloadTime: 1
   maxClipAmmo: 100
   maxAmmo: 1000
   shotSpread: 20
-  kickBack: 800
+  kickBack: 900
   isAutomatic: 1
+  isReloading: 0
+  gunOverlay: {fileID: 5604235547546440248, guid: a644aefa361daaf45908bf0345ed66e6, type: 3}
+  gunPickup: {fileID: 1240305315535173816, guid: 87c2fcfe72fb9274e943a419ba6b6231, type: 3}
 --- !u!1 &3464644514949282581
 GameObject:
   m_ObjectHideFlags: 0
@@ -384,7 +341,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7028764343132139747}
   - component: {fileID: 995289189192740481}
-  - component: {fileID: 3662011865619787634}
   m_Layer: 0
   m_Name: Part (4)
   m_TagString: Untagged
@@ -459,28 +415,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &3662011865619787634
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3464644514949282581}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1d45e87d76649b4f88d6db3b3017356, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shootPos: {fileID: 0}
-  bulletPrefab: {fileID: 1164284738479998248, guid: 7348a5fda102c8a40883abe96c5c5fa3, type: 3}
-  bulletForce: 40
-  fireRate: 0.04
-  reloadTime: 2
-  maxClipAmmo: 100
-  maxAmmo: 1000
-  shotSpread: 20
-  kickBack: 800
-  isAutomatic: 1
 --- !u!1 &4539643460854953108
 GameObject:
   m_ObjectHideFlags: 0
@@ -505,7 +439,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4539643460854953108}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.55, y: 0, z: 0}
+  m_LocalPosition: {x: -1.058, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -522,7 +456,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3451521218225246879}
   - component: {fileID: 2667142650757033541}
-  - component: {fileID: 753012248668948893}
   m_Layer: 0
   m_Name: Part (3)
   m_TagString: Untagged
@@ -597,28 +530,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &753012248668948893
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5352395172524407232}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1d45e87d76649b4f88d6db3b3017356, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shootPos: {fileID: 0}
-  bulletPrefab: {fileID: 1164284738479998248, guid: 7348a5fda102c8a40883abe96c5c5fa3, type: 3}
-  bulletForce: 40
-  fireRate: 0.04
-  reloadTime: 2
-  maxClipAmmo: 100
-  maxAmmo: 1000
-  shotSpread: 20
-  kickBack: 800
-  isAutomatic: 1
 --- !u!1 &5720817235601205564
 GameObject:
   m_ObjectHideFlags: 0
@@ -629,7 +540,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1306697334371863684}
   - component: {fileID: 18179474390640607}
-  - component: {fileID: 4139224223496034886}
   m_Layer: 0
   m_Name: Part (5)
   m_TagString: Untagged
@@ -704,28 +614,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &4139224223496034886
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5720817235601205564}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1d45e87d76649b4f88d6db3b3017356, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shootPos: {fileID: 0}
-  bulletPrefab: {fileID: 1164284738479998248, guid: 7348a5fda102c8a40883abe96c5c5fa3, type: 3}
-  bulletForce: 40
-  fireRate: 0.04
-  reloadTime: 2
-  maxClipAmmo: 100
-  maxAmmo: 1000
-  shotSpread: 20
-  kickBack: 800
-  isAutomatic: 1
 --- !u!1 &6845007567342868235
 GameObject:
   m_ObjectHideFlags: 0
@@ -736,7 +624,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7681314774650390030}
   - component: {fileID: 4214692496082480501}
-  - component: {fileID: 911840428532579045}
   m_Layer: 0
   m_Name: Part (6)
   m_TagString: Untagged
@@ -811,28 +698,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &911840428532579045
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6845007567342868235}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1d45e87d76649b4f88d6db3b3017356, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shootPos: {fileID: 0}
-  bulletPrefab: {fileID: 1164284738479998248, guid: 7348a5fda102c8a40883abe96c5c5fa3, type: 3}
-  bulletForce: 40
-  fireRate: 0.04
-  reloadTime: 2
-  maxClipAmmo: 100
-  maxAmmo: 1000
-  shotSpread: 20
-  kickBack: 800
-  isAutomatic: 1
 --- !u!1 &7665337285446803739
 GameObject:
   m_ObjectHideFlags: 0
@@ -843,7 +708,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3021395166107211441}
   - component: {fileID: 3320583111793147295}
-  - component: {fileID: 6995969587732639051}
   m_Layer: 0
   m_Name: Part (1)
   m_TagString: Untagged
@@ -918,25 +782,3 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &6995969587732639051
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7665337285446803739}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1d45e87d76649b4f88d6db3b3017356, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shootPos: {fileID: 0}
-  bulletPrefab: {fileID: 1164284738479998248, guid: 7348a5fda102c8a40883abe96c5c5fa3, type: 3}
-  bulletForce: 40
-  fireRate: 0.04
-  reloadTime: 2
-  maxClipAmmo: 100
-  maxAmmo: 1000
-  shotSpread: 20
-  kickBack: 800
-  isAutomatic: 1

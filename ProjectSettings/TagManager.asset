@@ -8,6 +8,7 @@ TagManager:
   - GenerationManager
   - UIManager
   - PlayerShootPos
+  - WeaponPickup
   layers:
   - Default
   - TransparentFX

@@ -147,12 +147,15 @@ MonoBehaviour:
   bulletPrefab: {fileID: 1164284738479998248, guid: 7348a5fda102c8a40883abe96c5c5fa3, type: 3}
   bulletForce: 40
   fireRate: 0.13
-  reloadTime: 1
+  reloadTime: 0.5
   maxClipAmmo: 15
   maxAmmo: 300
   shotSpread: 5
   kickBack: 200
-  isAutomatic: 1
+  isAutomatic: 0
+  isReloading: 0
+  gunOverlay: {fileID: 5604235547546440248, guid: f3fab8a97b4551148a3e73ceeea6e62a, type: 3}
+  gunPickup: {fileID: 1240305315535173816, guid: 989609eb50f3d164cb3cc180e46fb019, type: 3}
 --- !u!1 &4539643460854953108
 GameObject:
   m_ObjectHideFlags: 0

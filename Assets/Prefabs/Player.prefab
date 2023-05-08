@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8360733513594871406}
   - component: {fileID: 1557893998923492883}
   - component: {fileID: 707667406623224182}
+  - component: {fileID: 3215766524828695818}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -146,6 +147,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e32971e7401cbac429a24e0be1681dbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startGun: {fileID: 174867828750489003, guid: cde773b445c0c0f4a82be0f552e7c3ab, type: 3}
   maxHealth: 5
   health: 5
+--- !u!114 &3215766524828695818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2968265092876110585}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6344bbbe8ee77648bf4c832c45b78cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gunList: []
+  startGun: {fileID: 174867828750489003, guid: cde773b445c0c0f4a82be0f552e7c3ab, type: 3}
+  tempStartGun: {fileID: 174867828750489003, guid: 9792e36330346414eb6acddee58638d6, type: 3}
+  maxNumGuns: 1
+  clipRechargeTime: 5
