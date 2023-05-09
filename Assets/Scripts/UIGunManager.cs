@@ -29,8 +29,7 @@ public class UIGunManager : MonoBehaviour
 
             overlay = Instantiate(currentGunOverlay, transform.position, Quaternion.identity);
             overlay.transform.SetParent(transform);
+            overlay.transform.localScale = transform.localScale;
         }
-        
-
     }
 }
