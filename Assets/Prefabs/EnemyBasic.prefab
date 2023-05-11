@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 4172180446364463635}
   - component: {fileID: 6134165462309847505}
   - component: {fileID: 5127144873765842600}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: EnemyBasic
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -147,9 +147,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 0
-  idleMoveRate: 3
-  idleMoveLength: 1
-  idleMoveSpeed: 0.01
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 8
+  idleMoveSpeed: 0.007
+  aggMoveSpeed: 0.012
+  fleeDistance: 5
+  fleeSpeed: 0.012
+  rayDistance: 30

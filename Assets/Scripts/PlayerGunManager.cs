@@ -7,7 +7,6 @@ public class PlayerGunManager : MonoBehaviour
     [System.NonSerialized] public List<GameObject> gunList = new List<GameObject>();
 
     public GameObject startGun;
-    public GameObject tempStartGun;
 
     [System.NonSerialized] public int currentGunIndex;
 
@@ -30,7 +29,6 @@ public class PlayerGunManager : MonoBehaviour
         UIGunManager = GameObject.FindWithTag("UIGunManager")?.GetComponent<UIGunManager>();
 
         AddGun(startGun);
-        //AddGun(tempStartGun);
     }
 
     public void OnTriggerStay2D(Collider2D collision)

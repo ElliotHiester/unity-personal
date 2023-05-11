@@ -10,6 +10,7 @@ TagManager:
   - PlayerShootPos
   - WeaponPickup
   - UIGunManager
+  - Enemy
   layers:
   - Default
   - TransparentFX
