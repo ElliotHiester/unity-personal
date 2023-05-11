@@ -8,7 +8,7 @@ public class Enemy : MonoBehaviour
 
     private Rigidbody2D rb;
 
-    private States currentState;
+    public States currentState;
 
     //idle vars
     private float idleMoveRate; //time in between moving
@@ -39,13 +39,14 @@ public class Enemy : MonoBehaviour
     {
         Idle,
         Aggressive,
-        Flee
+        Flee,
+        Wary
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        player ??= GameObject.FindWithTag("Player");
+        player = player != null ? player : GameObject.FindWithTag("Player");
 
         currentState = States.Idle;
 
@@ -92,6 +93,9 @@ public class Enemy : MonoBehaviour
             case States.Flee:
                 Flee();
                 break;
+
+            case States.Wary:
+                break;
         }
     }
 
@@ -108,6 +112,10 @@ public class Enemy : MonoBehaviour
         {
             move = true;
             direction = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0).normalized * idleMoveSpeed; //randomize, then normalize a vector (magnitude of one), and multiply by speed
+
+            var gunScript = transform.GetChild(0).GetComponent<RotateEnemyGun>();
+            gunScript.Rotate(direction);
+
             moveTimer = 0;
             idleMoveRate = Random.Range(0f, 8f); //randomize time IN BETWEEN moving
         }
@@ -172,8 +180,6 @@ public class Enemy : MonoBehaviour
         }
 
         transform.Translate(fleeDirection);
-
-        Debug.Log("flee");
     }
 
     public void OnCollisionEnter2D(Collision2D collision)
