@@ -77,7 +77,8 @@ public class GenerationManager : MonoBehaviour
 
     public void ChangeDirection()
     {
-        direction = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0);
+        direction = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0).normalized;
+        Instantiate(enemyPrefab, transform.position, enemyPrefab.transform.rotation); //** TEMPORARY **
     }
 
     public void ChangeSize()

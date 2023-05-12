@@ -29,9 +29,4 @@ public class RotateEnemyGun : MonoBehaviour
         float angle = Mathf.Atan2(direction.x, direction.y) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0f, 0f, -angle);
     }
-
-    public void Rotate(float angle)
-    {
-        transform.rotation = Quaternion.Euler(0f, 0f, -angle);
-    }
 }

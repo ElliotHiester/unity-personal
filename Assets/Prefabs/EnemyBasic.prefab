@@ -89,7 +89,8 @@ GameObject:
   - component: {fileID: 4172180446364463635}
   - component: {fileID: 6134165462309847505}
   - component: {fileID: 5127144873765842600}
-  m_Layer: 2
+  - component: {fileID: 7479704549883593521}
+  m_Layer: 8
   m_Name: EnemyBasic
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -223,13 +224,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 177d1b5722febd541b21f6430a455358, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 0
+  health: 5
   idleMoveSpeed: 0.007
   aggMoveSpeed: 0.011
   fleeDistance: 5
   fleeSpeed: 0.011
   waryLength: 5
   rayDistance: 30
+--- !u!114 &7479704549883593521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5937210523873113272}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ffc557bc909ff946bbb29be29f628ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fleeMin: 2
+  fleeMax: 5
+  aggMin: 0.4
+  aggMax: 2.5
 --- !u!1 &6229293550747272023
 GameObject:
   m_ObjectHideFlags: 0
@@ -240,6 +257,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2296127898235885115}
   - component: {fileID: 3760141556080164859}
+  - component: {fileID: 6467996125853832993}
   m_Layer: 0
   m_Name: Pistol
   m_TagString: Untagged
@@ -315,3 +333,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &6467996125853832993
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6229293550747272023}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce4ce38e7286d0042bd3002eb0eff3b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shootPos: {fileID: 8743036512403830715}
+  origin: {fileID: 3881363277127308439}
+  bulletPrefab: {fileID: 1164284738479998248, guid: 2a3fadb5dfa256c4da4ae97157e913cf, type: 3}
+  shotSpread: 10
+  bulletForce: 15

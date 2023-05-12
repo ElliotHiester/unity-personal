@@ -11,6 +11,8 @@ TagManager:
   - WeaponPickup
   - UIGunManager
   - Enemy
+  - Bullet
+  - EnemyBullet
   layers:
   - Default
   - TransparentFX
@@ -18,9 +20,9 @@ TagManager:
   - Player
   - Water
   - UI
-  - 
-  - 
-  - 
+  - Bullet
+  - EnemyBullet
+  - Enemy
   - 
   - 
   - 

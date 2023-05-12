@@ -36,6 +36,8 @@ public class Enemy : MonoBehaviour
 
     private GameObject player;
 
+    private Vector2 playerDir;
+
     private bool colliding;
 
     public enum States
@@ -48,7 +50,7 @@ public class Enemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player = player != null ? player : GameObject.FindWithTag("Player");
+        //player = player != null ? player : GameObject.FindWithTag("Player");
 
         currentState = States.Idle;
 
@@ -62,54 +64,58 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     protected virtual void Update()
     {
-        Vector2 playerDir = player.transform.position - transform.position;
+        player = player != null ? player : GameObject.FindWithTag("Player");
 
-        var layerMask = (1 << 2);
-        layerMask = ~layerMask; // ray looks for every layer EXCEPT the 'Ignore Raycast' layer
-
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, playerDir.normalized, 50f, layerMask); //Shoot ray at player
-        if(hit.collider != null)
+        if (player != null)
         {
-            if (hit.collider != null && hit.collider.gameObject.CompareTag("Player")) //if enemy can see player set aggressive state
+            playerDir = player.transform.position - transform.position;
+
+            var layerMask = ~((1 << 2) | (1 << 6) | (1 << 7) | (1 << 8)); // ray looks for every layer EXCEPT the 'Ignore Raycast', 'Bullet', and 'EnemyBullet'
+
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, playerDir.normalized, 50f, layerMask); //Shoot ray at player
+            if (hit.collider != null)
             {
-                currentState = States.Aggressive;
-            }
-            else if (!hit.collider.gameObject.CompareTag("Player") && currentState == States.Aggressive) //if player goes out of sight
-            {
-                currentState = States.Idle;
-                isWary = true;
+                if (hit.collider != null && hit.collider.gameObject.CompareTag("Player")) //if enemy can see player set aggressive state
+                {
+                    currentState = States.Aggressive;
+                }
+                else if (!hit.collider.gameObject.CompareTag("Player") && currentState == States.Aggressive) //if player goes out of sight
+                {
+                    currentState = States.Idle;
+                    isWary = true;
+                }
+                else
+                {
+                    currentState = States.Idle; //otherwise set idle state
+                }
             }
             else
             {
-                currentState = States.Idle; //otherwise set idle state
+                currentState = States.Idle; //if player is too far away, set to idle
             }
-        }
-        else
-        {
-            currentState = States.Idle; //if player is too far away, set to idle
-        }
-        
-            
 
-        if (playerDir.magnitude <= fleeDistance) //if player is close enough, set state to flee
-        {
-            currentState = States.Flee;
-            direction = -(player.transform.position - transform.position).normalized * fleeSpeed;
-        }
 
-        switch (currentState)
-        {
-            case States.Idle:
-                Idle();
-                break;
 
-            case States.Aggressive:
-                Aggressive();
-                break;
+            if (playerDir.magnitude <= fleeDistance) //if player is close enough, set state to flee
+            {
+                currentState = States.Flee;
+                direction = -(player.transform.position - transform.position).normalized * fleeSpeed;
+            }
 
-            case States.Flee:
-                Flee();
-                break;
+            switch (currentState)
+            {
+                case States.Idle:
+                    Idle();
+                    break;
+
+                case States.Aggressive:
+                    Aggressive();
+                    break;
+
+                case States.Flee:
+                    Flee();
+                    break;
+            }
         }
     }
 
@@ -217,6 +223,16 @@ public class Enemy : MonoBehaviour
     {
         if(collision.gameObject.CompareTag("Walls"))
             colliding = true;
+
+        if (collision.gameObject.CompareTag("Bullet"))
+        {
+            health--;
+            if(health <= 0) 
+            {
+                Destroy(gameObject);
+            }
+        }
+            
     }
     
 

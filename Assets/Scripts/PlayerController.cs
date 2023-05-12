@@ -16,39 +16,45 @@ public class PlayerController : MonoBehaviour
     public int maxHealth;
     public int health;
 
+    private bool gameOver;
+
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        /*gunManager = GetComponent<PlayerGunManager>();*/
         
         health = maxHealth;
-
-        /*var gun = Instantiate(gunManager.startGun, transform.position, Quaternion.identity);
-        gun.transform.SetParent(transform);*/
     }
 
     // Update is called once per frame
     void Update()
     {
-        UIManager ??= GameObject.FindWithTag("UIManager")?.GetComponent<UIManager>();
-
-        movement.x = Input.GetAxisRaw("Horizontal");
-        movement.y = Input.GetAxisRaw("Vertical");
-
-
-        if (Input.GetKeyDown(KeyCode.K))
+        if(!gameOver)
         {
-           health--;
-           UIManager.UpdateHearts();
-        }
+            UIManager ??= GameObject.FindWithTag("UIManager")?.GetComponent<UIManager>();
 
-        if (Input.GetKeyDown(KeyCode.J))
-        {
-            health++;
-            UIManager.UpdateHearts();
-        }
+            movement.x = Input.GetAxisRaw("Horizontal");
+            movement.y = Input.GetAxisRaw("Vertical");
+        }  
     }
 
-    private void FixedUpdate() => rb.MovePosition(rb.position + moveSpeed * Time.fixedDeltaTime * movement); 
+    private void FixedUpdate()
+    {
+        if(!gameOver)
+            rb.MovePosition(rb.position + moveSpeed * Time.fixedDeltaTime * movement);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.CompareTag("EnemyBullet"))
+        {
+            health--;
+            UIManager.UpdateHearts();
+
+            if(health <= 0)
+            {
+                gameOver = true; //TEMPORARY
+            }
+        }
+    }
 }

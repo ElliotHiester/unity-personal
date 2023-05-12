@@ -21,7 +21,6 @@ public class PlayerShooting : MonoBehaviour
     [System.NonSerialized] public int currentAmmo = -1;
 
     [SerializeField] private float shotSpread;
-    private float accuracy;
 
     [SerializeField] private float kickBack;
 
@@ -37,7 +36,7 @@ public class PlayerShooting : MonoBehaviour
     private Coroutine reloadCoroutine;
 
     protected virtual void Start()
-    {
+    {       
         UIManager = GameObject.FindWithTag("UIManager")?.GetComponent<UIManager>();
 
         if (currentAmmo < 0) // if ammo has not been set by the pickup, set it to the max ammo
@@ -120,9 +119,10 @@ public class PlayerShooting : MonoBehaviour
         currentAmmo--;
 
         GameObject bullet = Instantiate(bulletPrefab, shootPos.position, Quaternion.identity);
+        //Destroy(bullet, 2f);
         Rigidbody2D bulletRb = bullet.GetComponent<Rigidbody2D>();
 
-        accuracy = Random.Range(-shotSpread, shotSpread);
+        var accuracy = Random.Range(-shotSpread, shotSpread);
 
         shootPos.Rotate(0, 0, accuracy); //randomize shootPos rotation for accuracy customization
         bulletRb.AddForce(-shootPos.right * bulletForce, ForceMode2D.Impulse);
