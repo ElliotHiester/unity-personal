@@ -6,9 +6,7 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField] private int health;
 
-    private Rigidbody2D rb;
-
-    public States currentState;
+    [System.NonSerialized] public States currentState;
 
     //idle vars
     private float idleMoveRate; //time in between moving
@@ -26,6 +24,11 @@ public class Enemy : MonoBehaviour
     private Vector3 fleeDirection;
     private float fleeMoveRate;
 
+    //wary vars
+    private bool isWary = false;
+    private float waryTimer;
+    [SerializeField] private float waryLength;
+
     [SerializeField] private float rayDistance;
     private bool move;
     private Vector3 direction;
@@ -39,8 +42,7 @@ public class Enemy : MonoBehaviour
     {
         Idle,
         Aggressive,
-        Flee,
-        Wary
+        Flee
     }
 
     // Start is called before the first frame update
@@ -49,8 +51,6 @@ public class Enemy : MonoBehaviour
         player = player != null ? player : GameObject.FindWithTag("Player");
 
         currentState = States.Idle;
-
-        rb = GetComponent<Rigidbody2D>();
 
         idleMoveRate = Random.Range(0f, 8f);
         idleMoveLength = Random.Range(0.3f, 2f);
@@ -68,11 +68,28 @@ public class Enemy : MonoBehaviour
         layerMask = ~layerMask; // ray looks for every layer EXCEPT the 'Ignore Raycast' layer
 
         RaycastHit2D hit = Physics2D.Raycast(transform.position, playerDir.normalized, 50f, layerMask); //Shoot ray at player
-
-        if (hit.collider != null && hit.collider.gameObject.CompareTag("Player")) //if enemy can see player set aggressive state
-            currentState = States.Aggressive;
+        if(hit.collider != null)
+        {
+            if (hit.collider != null && hit.collider.gameObject.CompareTag("Player")) //if enemy can see player set aggressive state
+            {
+                currentState = States.Aggressive;
+            }
+            else if (!hit.collider.gameObject.CompareTag("Player") && currentState == States.Aggressive) //if player goes out of sight
+            {
+                currentState = States.Idle;
+                isWary = true;
+            }
+            else
+            {
+                currentState = States.Idle; //otherwise set idle state
+            }
+        }
         else
-            currentState = States.Idle; //otherwise set idle state
+        {
+            currentState = States.Idle; //if player is too far away, set to idle
+        }
+        
+            
 
         if (playerDir.magnitude <= fleeDistance) //if player is close enough, set state to flee
         {
@@ -93,9 +110,6 @@ public class Enemy : MonoBehaviour
             case States.Flee:
                 Flee();
                 break;
-
-            case States.Wary:
-                break;
         }
     }
 
@@ -113,11 +127,14 @@ public class Enemy : MonoBehaviour
             move = true;
             direction = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0).normalized * idleMoveSpeed; //randomize, then normalize a vector (magnitude of one), and multiply by speed
 
-            var gunScript = transform.GetChild(0).GetComponent<RotateEnemyGun>();
-            gunScript.Rotate(direction);
+            if(!isWary)
+            {
+                var gunScript = transform.GetChild(0).GetComponent<RotateEnemyGun>();
+                gunScript.Rotate(direction);
+            }
 
             moveTimer = 0;
-            idleMoveRate = Random.Range(0f, 8f); //randomize time IN BETWEEN moving
+            idleMoveRate = Random.Range(0f, 7f); //randomize time IN BETWEEN moving
         }
         else if(move && moveTimer >= idleMoveLength)
         {
@@ -131,8 +148,16 @@ public class Enemy : MonoBehaviour
         {
             transform.Translate(direction);
         }
-    }
 
+        if(isWary)
+            waryTimer += Time.deltaTime;
+
+        if (waryTimer >= waryLength)
+        {
+            currentState = States.Idle;
+            waryTimer = 0;
+        }
+    }
     public void Aggressive()
     {
         if (colliding)
@@ -147,12 +172,12 @@ public class Enemy : MonoBehaviour
             move = true;
             direction = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0).normalized * aggMoveSpeed; //randomize, then normalize a vector (magnitude of one), and multiply by speed
             moveTimer = 0;
-            aggMoveRate = Random.Range(0f, 3f); //randomize time IN BETWEEN moving
+            aggMoveRate = Random.Range(0f, 4f); //randomize time IN BETWEEN moving
         }
         else if (move && moveTimer >= aggMoveLength)
         {
             move = false;
-            aggMoveLength = Random.Range(0.2f, 2f); //randomize HOW LONG the enemy is moving
+            aggMoveLength = Random.Range(0.2f, 1.8f); //randomize HOW LONG the enemy is moving
 
             moveTimer = Random.Range(1, 6) == 1 ? aggMoveRate : 0; //chance to immediately move again after 
         }
@@ -161,6 +186,9 @@ public class Enemy : MonoBehaviour
         {
             transform.Translate(direction);
         }
+
+        var gunScript = transform.GetChild(0).GetComponent<RotateEnemyGun>();
+        gunScript.Rotate();
     }
 
     public void Flee()
@@ -180,6 +208,9 @@ public class Enemy : MonoBehaviour
         }
 
         transform.Translate(fleeDirection);
+
+        var gunScript = transform.GetChild(0).GetComponent<RotateEnemyGun>();
+        gunScript.Rotate();
     }
 
     public void OnCollisionEnter2D(Collision2D collision)

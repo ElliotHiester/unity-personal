@@ -225,9 +225,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 0
   idleMoveSpeed: 0.007
-  aggMoveSpeed: 0.012
+  aggMoveSpeed: 0.011
   fleeDistance: 5
-  fleeSpeed: 0.012
+  fleeSpeed: 0.011
+  waryLength: 5
   rayDistance: 30
 --- !u!1 &6229293550747272023
 GameObject:
