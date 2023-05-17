@@ -7,14 +7,10 @@ public class UIGunManager : MonoBehaviour
     private GameObject player;
     private GameObject overlay = null;
 
-    // Update is called once per frame
-    void Update()
-    {
-        player = player != null ? player : GameObject.FindWithTag("Player");
-    }
-
     public void ChangeGun() 
     {
+        player = player != null ? player : GameObject.FindWithTag("Player");
+
         var playerGunManager = player?.GetComponent<PlayerGunManager>(); // ADD START METHOD WITH WAY TO FIX THIS PROBLEM
 
         if (playerGunManager != null)
