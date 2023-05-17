@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class ProcGenAlgorithms
 {
-    public static HashSet<Vector2Int> SimpleRandomWalk(Vector2Int startPosition, int walkLength)
+    public static HashSet<Vector2Int> RandomWalk(Vector2Int startPosition, int walkLength)
     {
         HashSet<Vector2Int> path = new HashSet<Vector2Int>();
 
@@ -19,6 +19,22 @@ public static class ProcGenAlgorithms
         }
 
         return path;
+    }
+
+    public static List<Vector2Int> RanWalkCorridor(Vector2Int startPosition, int corridorLength)
+    {
+        List<Vector2Int> corridor = new List<Vector2Int>();
+        var direction = Direction2D.GetRandomCardinalDirection();
+        var currentPosition = startPosition;
+        corridor.Add(currentPosition);
+
+        for (int i = 0; i < corridorLength; i++)
+        {
+            currentPosition += direction;
+            corridor.Add(currentPosition);
+        }
+
+        return corridor;
     }
 }
 
