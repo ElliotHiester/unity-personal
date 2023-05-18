@@ -15,7 +15,6 @@ public class CorridorFirstGenerator : RanWalkGenerator
     protected override void RunProceduralGeneration()
     {
         CorridorFirstGeneration();
-        
     }
 
     private void CorridorFirstGeneration()
