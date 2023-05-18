@@ -19,8 +19,8 @@ public class CameraFollow : MonoBehaviour
         Vector3 centerOfScreen = new Vector3(Screen.width / 2, Screen.height / 2, 0);
         Vector3 distanceFromCenter = centerOfScreen - Input.mousePosition; //mouse distance from center of screen
 
-        float offsetFactorX = -350f;
-        float offsetFactorY = -250f;
+        float offsetFactorX = -250f;
+        float offsetFactorY = -150f;
 
         Vector3 playerPos = player.transform.position;
 
@@ -31,6 +31,3 @@ public class CameraFollow : MonoBehaviour
         transform.position = new Vector3(playerPos.x + offsetX, playerPos.y + offsetY, transform.position.z); 
     }
 }
-
-//finalOffsetX = (offset.x > 50) ? -Mathf.Sqrt(offset.x) / 5:
-//               (offset.x < -50) ? Mathf.Sqrt(-offset.x) / 5: (offset.x / offsetFactorX) * 15;

@@ -72,7 +72,7 @@ public class Enemy : MonoBehaviour
 
             var layerMask = ~((1 << 2) | (1 << 6) | (1 << 7) | (1 << 8)); // ray looks for every layer EXCEPT the 'Ignore Raycast', 'Bullet', and 'EnemyBullet'
 
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, playerDir.normalized, 50f, layerMask); //Shoot ray at player
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, playerDir.normalized, rayDistance, layerMask); //Shoot ray at player
             if (hit.collider != null)
             {
                 if (hit.collider != null && hit.collider.gameObject.CompareTag("Player")) //if enemy can see player set aggressive state
@@ -161,6 +161,7 @@ public class Enemy : MonoBehaviour
         if (waryTimer >= waryLength)
         {
             currentState = States.Idle;
+            isWary = false;
             waryTimer = 0;
         }
     }

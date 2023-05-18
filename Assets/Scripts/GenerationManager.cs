@@ -1,11 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class GenerationManager : MonoBehaviour
 {
     [SerializeField] private GameObject playerPrefab;
     [SerializeField] private GameObject enemyPrefab;
+    [SerializeField] private GameObject placeholder;
+    [SerializeField] private GameObject chestPrefab;
+    [SerializeField] [Range(0f, 100f)] private float chestPercentage;
+    [SerializeField] private float maxDistanceFromPlayer;
 
     private Vector3 direction;
     private float speed = 40f; //speed of entire generation process 
@@ -20,7 +27,7 @@ public class GenerationManager : MonoBehaviour
 
     private float randScaleFactor;
 
-
+    private List<GameObject> placeholders = new List<GameObject>();
 
     // Start is called before the first frame update
     void Start()
@@ -36,8 +43,8 @@ public class GenerationManager : MonoBehaviour
 
         if (globalTimer >= 6.0f / (speed * Time.deltaTime)) //destroy after a set amount of seconds determined by the generation speed
         {
-            Instantiate(enemyPrefab, transform.position, enemyPrefab.transform.rotation); //spawn enemy on destroy **TEMPORARY**
-            Instantiate(playerPrefab, new Vector3(0, 0, 0), playerPrefab.transform.rotation); //spawn player on destroy
+            SpawnPlaceholder();
+            ActivatePlaceholders();            
             Destroy(gameObject);
         }
 
@@ -78,7 +85,7 @@ public class GenerationManager : MonoBehaviour
     public void ChangeDirection()
     {
         direction = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0).normalized;
-        Instantiate(enemyPrefab, transform.position, enemyPrefab.transform.rotation); //** TEMPORARY **
+        SpawnPlaceholder();
     }
 
     public void ChangeSize()
@@ -88,6 +95,75 @@ public class GenerationManager : MonoBehaviour
         randScaleFactor = scale.x >= 5.0f ? Random.Range(2.5f, 4.0f) : Random.Range(6.0f, 10.0f);
 
         transform.localScale = new Vector3(randScaleFactor, randScaleFactor, 1);
+    }
+
+    public void SpawnPlaceholder()
+    {
+        var placeholderGameObject = Instantiate(placeholder, transform.position, Quaternion.identity);
+        placeholders.Add(placeholderGameObject);
+    }
+
+    public void ActivatePlaceholders()
+    {
+        List<Tuple<float, GameObject, GameObject>> distances = new List<Tuple<float, GameObject, GameObject>>();
+        GameObject playerPlaceholder = null;
+        GameObject chestPlaceholder = null;
+
+        foreach (var currPlaceholder in placeholders)
+        {
+            foreach(var loopPlaceholder in placeholders)
+            {
+                var difference = loopPlaceholder.transform.position - currPlaceholder.transform.position;
+                var distance = difference.magnitude;
+
+                distances.Add(new Tuple<float, GameObject, GameObject>(distance, currPlaceholder, loopPlaceholder));
+            }
+        }
+
+        var farthestDistance = 0.0f;
+
+        foreach(var distance in distances)
+        {
+            if (distance.Item1 > farthestDistance)
+            {
+                farthestDistance = distance.Item1;
+                playerPlaceholder = distance.Item2;
+                chestPlaceholder = distance.Item3;
+            }
+        }
+        List<GameObject> tooClosePlaceholders = new List<GameObject>();
+        foreach(var placeholder in placeholders)
+        {
+            var distance = (placeholder.transform.position - playerPlaceholder.transform.position).magnitude;
+
+            if(distance <= maxDistanceFromPlayer)
+            {
+                Destroy(placeholder);
+                tooClosePlaceholders.Add(placeholder);
+            }
+        }
+
+        foreach(var placeholder in tooClosePlaceholders)
+            placeholders.Remove(placeholder);
+
+        Instantiate(playerPrefab, playerPlaceholder.transform.position, playerPrefab.transform.rotation);
+        placeholders.Remove(playerPlaceholder);
+        Destroy(playerPlaceholder);
+        
+
+        var chestChance = Random.Range(0f, 100f);
+        if(chestChance <= chestPercentage)
+        {
+            Instantiate(chestPrefab, chestPlaceholder.transform.position, Quaternion.identity);
+            placeholders.Remove(chestPlaceholder);
+            Destroy(chestPlaceholder);
+        }        
+
+        foreach(var placeholder in placeholders) 
+        {
+            Instantiate(enemyPrefab, placeholder.transform.position, Quaternion.identity);
+            Destroy(placeholder);
+        }
     }
 
     /*
