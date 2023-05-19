@@ -14,6 +14,10 @@ public class EnemyShootingManager : MonoBehaviour
 
     private Enemy.States changeStateCheck;
 
+    [SerializeField] private float startDelay;
+    private float startTimer;
+    private bool started = false;
+
     [SerializeField] private float fleeMin;
     [SerializeField] private float fleeMax;
 
@@ -31,13 +35,22 @@ public class EnemyShootingManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(!started)
+            startTimer += Time.deltaTime;
+
+        if (startTimer > startDelay)
+        {
+            started = true;
+            startTimer = 0;
+        }
+
         if(changeStateCheck != enemyScript.currentState) //checks if the state was changed last frame
         {
             shootTimer = 0;
             changeStateCheck = enemyScript.currentState;
         }
 
-        if (enemyScript.currentState == Enemy.States.Aggressive || enemyScript.currentState == Enemy.States.Flee)
+        if ((enemyScript.currentState == Enemy.States.Aggressive || enemyScript.currentState == Enemy.States.Flee) && started)
         {
             shootTimer += Time.deltaTime;
         }

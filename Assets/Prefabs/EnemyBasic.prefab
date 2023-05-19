@@ -230,7 +230,7 @@ MonoBehaviour:
   fleeDistance: 5
   fleeSpeed: 0.011
   waryLength: 5
-  rayDistance: 25
+  rayDistance: 23
 --- !u!114 &7479704549883593521
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -243,6 +243,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ffc557bc909ff946bbb29be29f628ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startDelay: 2
   fleeMin: 2
   fleeMax: 5
   aggMin: 0.4

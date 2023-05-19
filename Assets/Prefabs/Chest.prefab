@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9168713835201320674}
   - component: {fileID: 333266702198328883}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Opening
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8794758235622868384}
   - component: {fileID: 2430362471342327543}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Latch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -178,7 +178,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2715140420910257706}
   - component: {fileID: 4132540000959171361}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Lid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -262,9 +262,11 @@ GameObject:
   m_Component:
   - component: {fileID: 5310333817412666315}
   - component: {fileID: 1759266508602376766}
-  m_Layer: 0
+  - component: {fileID: 4843119325578387691}
+  - component: {fileID: 1571930300585315043}
+  m_Layer: 2
   m_Name: Chest
-  m_TagString: Untagged
+  m_TagString: Chest
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -327,7 +329,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0.3301887, g: 0.26524913, b: 0.13861695, a: 1}
   m_FlipX: 0
@@ -339,3 +341,41 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!61 &4843119325578387691
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7442414413397912200}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.31638062}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1.6327608}
+  m_EdgeRadius: 0
+--- !u!114 &1571930300585315043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7442414413397912200}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a1027e8b1d4fb149ab9c42129a80ba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

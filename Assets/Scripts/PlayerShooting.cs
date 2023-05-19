@@ -6,8 +6,8 @@ public class PlayerShooting : MonoBehaviour
 {
     private UIManager UIManager;
     
-    [SerializeField] private Transform shootPos;
-    [SerializeField] private GameObject bulletPrefab;
+    [SerializeField] protected Transform shootPos;
+    [SerializeField] protected GameObject bulletPrefab;
     public float bulletForce = 40f;
     
     [SerializeField] private float fireRate;
@@ -15,14 +15,14 @@ public class PlayerShooting : MonoBehaviour
     private float fireCounter = 0.0f;
 
     [SerializeField] private int maxClipAmmo;
-    private int currentClipAmmo;
+    [System.NonSerialized] public int currentClipAmmo;
 
     public int maxAmmo;
     [System.NonSerialized] public int currentAmmo = -1;
 
-    [SerializeField] private float shotSpread;
+    [SerializeField] protected float shotSpread;
 
-    [SerializeField] private float kickBack;
+    [SerializeField] protected float kickBack;
 
     [SerializeField] private bool isAutomatic;
     
@@ -31,7 +31,7 @@ public class PlayerShooting : MonoBehaviour
     public GameObject gunOverlay;
     public GameObject gunPickup;
 
-    private Rigidbody2D playerRb;
+    protected Rigidbody2D playerRb;
 
     private Coroutine reloadCoroutine;
 

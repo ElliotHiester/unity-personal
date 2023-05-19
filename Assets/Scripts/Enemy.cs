@@ -220,6 +220,11 @@ public class Enemy : MonoBehaviour
         gunScript.Rotate();
     }
 
+    public void TakeDamage(int amount = 1)
+    {
+        health -= amount;
+    }
+
     public void OnCollisionEnter2D(Collision2D collision)
     {
         if(collision.gameObject.CompareTag("Walls"))
@@ -227,7 +232,7 @@ public class Enemy : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Bullet"))
         {
-            health--;
+            TakeDamage();
             if(health <= 0) 
             {
                 Destroy(gameObject);

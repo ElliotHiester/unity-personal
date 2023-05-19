@@ -13,6 +13,8 @@ TagManager:
   - Enemy
   - Bullet
   - EnemyBullet
+  - Chest
+  - GunList
   layers:
   - Default
   - TransparentFX
