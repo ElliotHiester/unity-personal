@@ -162,6 +162,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6344bbbe8ee77648bf4c832c45b78cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startGun: {fileID: 174867828750489003, guid: cde773b445c0c0f4a82be0f552e7c3ab, type: 3}
+  startGun: {fileID: 174867828750489003, guid: ad8eb0e05de49ac4b865ec53f1c2b760, type: 3}
   maxNumGuns: 2
   clipRechargeTime: 5

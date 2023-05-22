@@ -5107,7 +5107,7 @@ MonoBehaviour:
   maxPickupChance: 8
   pickupChanceFactor: 1.1
   healthChanceFactor: 1.1
-  maxHealthChance: 6
+  maxHealthChance: 7
   deathParticle: {fileID: 4394226698376070134, guid: 5bf35ee24f793014e94969df8fcb1062, type: 3}
   enemyColor: {r: 0.83137256, g: 0.16862746, b: 0.16862746, a: 1}
   hitColor: {r: 0.9245283, g: 0.37853327, b: 0.37853327, a: 1}

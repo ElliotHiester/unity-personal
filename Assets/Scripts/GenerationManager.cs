@@ -9,6 +9,7 @@ public class GenerationManager : MonoBehaviour
 {
     [SerializeField] private GameObject playerPrefab;
     [SerializeField] private GameObject enemyPrefab;
+    [SerializeField] private GameObject chargingEnemyPrefab;
     [SerializeField] private GameObject placeholder;
     [SerializeField] private GameObject chestPrefab;
     [SerializeField] [Range(0f, 100f)] private float chestPercentage;
@@ -32,6 +33,7 @@ public class GenerationManager : MonoBehaviour
     //enemy spawning vars
     private float enemyTimer;
     [SerializeField] [Min(0.02f)] private float enemySpawnRate;
+    [SerializeField] [Range(0f, 100f)]private float chargingEnemyPercent;
 
     [SerializeField] private float difficulty;
 
@@ -176,7 +178,19 @@ public class GenerationManager : MonoBehaviour
 
         foreach(var placeholder in placeholders) 
         {
-            Instantiate(enemyPrefab, placeholder.transform.position, Quaternion.identity);
+            var generationManager = GameObject.FindGameObjectWithTag("GenerationManager");
+            var genScript = GetComponent<GenerationManager>();
+
+            var enemyChance = Random.Range(1, 100);
+            if(enemyChance <= chargingEnemyPercent && genScript.difficulty >= 10)
+            {
+                Instantiate(chargingEnemyPrefab, placeholder.transform.position, Quaternion.identity);
+            }
+            else
+            {
+                Instantiate(enemyPrefab, placeholder.transform.position, Quaternion.identity);
+            }
+
             Destroy(placeholder);
         }
     }
