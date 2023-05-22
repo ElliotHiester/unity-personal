@@ -9,6 +9,7 @@ public class EnemyShooting : MonoBehaviour
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private float shotSpread;
     [SerializeField] private float bulletForce;
+    [SerializeField] private ParticleSystem shootParticle;
     private GameObject enemyObj;
 
     // Start is called before the first frame update
@@ -19,6 +20,7 @@ public class EnemyShooting : MonoBehaviour
 
     public void Shoot()
     {
+        shootParticle.Play();
         GameObject bullet = Instantiate(bulletPrefab, shootPos.position, Quaternion.identity);
         Rigidbody2D bulletRb = bullet.GetComponent<Rigidbody2D>();
 

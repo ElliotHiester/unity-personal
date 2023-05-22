@@ -1,10 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerGunManager : MonoBehaviour
 {
-    [System.NonSerialized] public List<GameObject> gunList = new List<GameObject>();
+    [System.NonSerialized] public List<GameObject> gunList = new();
 
     public GameObject startGun;
 
@@ -31,27 +32,19 @@ public class PlayerGunManager : MonoBehaviour
         AddGun(startGun);
     }
 
-    public void OnTriggerStay2D(Collider2D collision)
-    {
-        if (isPickupPressed && collision.gameObject.CompareTag("WeaponPickup"))
-        {
-            var gunScript = collision.gameObject.GetComponent<WeaponPickup>();
-
-            AddGun(gunScript.weapon, gunScript.storedAmmo);
-
-            Destroy(collision.gameObject);
-
-            isPickupPressed = false;
-        }
-    }
+    
 
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
         if(Input.GetKeyDown(KeyCode.Space))
         {
             isPickupPressed = true;
+        } 
+        if(Input.GetKeyUp(KeyCode.Space))
+        {
+            isPickupPressed = false;
         }
 
         int previousSelected = currentGunIndex;
@@ -84,7 +77,19 @@ public class PlayerGunManager : MonoBehaviour
         }
             
     }
+    public void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("WeaponPickup") && isPickupPressed)
+        {
+            var gunScript = collision.gameObject.GetComponent<WeaponPickup>();
 
+            AddGun(gunScript.weapon, gunScript.storedAmmo);
+
+            Destroy(collision.gameObject);
+
+            isPickupPressed = false;
+        }
+    }
 
     public void AddGun(GameObject gun, int storedAmmo = -1)
     {
@@ -154,5 +159,19 @@ public class PlayerGunManager : MonoBehaviour
         }
 
         UIGunManager.ChangeGun();
+    }
+
+    public void AddAmmo()
+    {
+        var currentGunScript = gunList[currentGunIndex].transform.GetChild(0)?.GetComponent<PlayerShooting>();
+        int ammo = Convert.ToInt32(currentGunScript.maxAmmo / 7); 
+        if(currentGunScript.currentAmmo + ammo > currentGunScript.maxAmmo)
+        {
+            currentGunScript.currentAmmo = currentGunScript.maxAmmo;
+        }
+        else
+        {
+            currentGunScript.currentAmmo += ammo;
+        }
     }
 }

@@ -40,6 +40,18 @@ public class Enemy : MonoBehaviour
 
     private bool colliding;
 
+    [SerializeField] private GameObject ammoPickup;
+    [SerializeField] private GameObject healthPickup;
+    [SerializeField] private float maxPickupChance;
+    [SerializeField] private float pickupChanceFactor;
+    [SerializeField] private float healthChanceFactor;
+    [SerializeField] private float maxHealthChance;
+
+    [SerializeField] private ParticleSystem deathParticle;
+
+    [SerializeField] private Color enemyColor;
+    [SerializeField] private Color hitColor;
+
     public enum States
     {
         Idle,
@@ -223,6 +235,54 @@ public class Enemy : MonoBehaviour
     public void TakeDamage(int amount = 1)
     {
         health -= amount;
+        StartCoroutine(DamageFlash());
+
+        if (health <= 0)
+        {
+            SpawnPickup();
+            var playerScript = player.GetComponent<PlayerController>();
+            playerScript.KilledEnemy();
+            var particle = Instantiate(deathParticle, transform.position, Quaternion.identity);
+            Destroy(particle, 3f);
+            particle.Play();
+            Destroy(gameObject);
+        }
+    }
+
+    IEnumerator DamageFlash()
+    {
+        gameObject.GetComponent<SpriteRenderer>().color = hitColor;
+        yield return new WaitForSeconds(0.05f);
+        gameObject.GetComponent<SpriteRenderer>().color = enemyColor;
+    }
+
+    public void SpawnPickup()
+    {
+        var playerScript = player.GetComponent<PlayerController>();
+        var minPickupChance = Mathf.Pow(pickupChanceFactor, playerScript.killCombo);
+
+        var pickupChance = Random.Range(minPickupChance, maxPickupChance);
+
+        if(pickupChance >= maxPickupChance - 1f)
+        {
+            if(playerScript.health != playerScript.maxHealth)
+            {
+                var minHealthChance = Mathf.Pow(healthChanceFactor, playerScript.killCombo);
+                var healthPickupChance = Random.Range(minHealthChance, maxHealthChance);
+                if(healthPickupChance >= maxHealthChance - 1f)
+                {
+                    Instantiate(healthPickup, transform.position, Quaternion.identity);
+                }
+                else
+                {
+                    Instantiate(ammoPickup, transform.position, Quaternion.identity);
+                }
+            } 
+            else
+            {
+                Instantiate(ammoPickup, transform.position, Quaternion.identity);
+            }
+        }
     }
 
     public void OnCollisionEnter2D(Collision2D collision)
@@ -233,10 +293,6 @@ public class Enemy : MonoBehaviour
         if (collision.gameObject.CompareTag("Bullet"))
         {
             TakeDamage();
-            if(health <= 0) 
-            {
-                Destroy(gameObject);
-            }
         }
             
     }

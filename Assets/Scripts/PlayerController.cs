@@ -11,12 +11,15 @@ public class PlayerController : MonoBehaviour
     private Vector2 movement;
 
     private UIManager UIManager;
-    private PlayerGunManager gunManager;
 
     public int maxHealth;
     public int health;
 
     private bool gameOver;
+
+    [System.NonSerialized] public int killCombo = 0;
+    private float killComboTimer;
+    [SerializeField] private float maxComboTime;
 
     // Start is called before the first frame update
     void Start()
@@ -29,6 +32,13 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        killComboTimer += Time.deltaTime;
+        
+        if(killComboTimer >= maxComboTime)
+        {
+            killCombo = 0;
+        }
+
         if(!gameOver)
         {
             UIManager ??= GameObject.FindWithTag("UIManager")?.GetComponent<UIManager>();
@@ -48,13 +58,18 @@ public class PlayerController : MonoBehaviour
     {
         if(collision.gameObject.CompareTag("EnemyBullet"))
         {
-            health--;
-            UIManager.UpdateHearts();
+            TakeDamage();
+        }
+    }
 
-            if(health <= 0)
-            {
-                gameOver = true; //TEMPORARY
-            }
+    public void TakeDamage(int amount = 1)
+    {
+        health -= amount;
+        UIManager.UpdateHearts();
+
+        if (health <= 0)
+        {
+            gameOver = true; //TEMPORARY
         }
     }
 
@@ -65,5 +80,12 @@ public class PlayerController : MonoBehaviour
             var chestScript = collision.gameObject.GetComponent<Chest>();
             chestScript.Opened();
         }
+    }
+
+    public void KilledEnemy()
+    {
+        killCombo++;
+        killComboTimer = 0;
+        UIManager.Combo(maxComboTime);
     }
 }

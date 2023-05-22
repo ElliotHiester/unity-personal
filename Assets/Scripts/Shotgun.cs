@@ -9,6 +9,8 @@ public class Shotgun : PlayerShooting
     {
         currentClipAmmo--;
         currentAmmo--;
+        shootParticle.Play();
+        cameraShake.Shake(shakePreset);
 
         shootPos.Rotate(0, 0, (shotSpread * numBullets) / 2);
         for (int i = 0; i < numBullets; i++)

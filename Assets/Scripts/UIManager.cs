@@ -16,6 +16,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject reloadBarBG;
     [SerializeField] private GameObject reloadBar;
 
+    [SerializeField] private GameObject comboBarBG;
+    [SerializeField] private GameObject comboBar;
+
     public TextMeshProUGUI maxAmmoDisplay;
     public Slider clipAmmoSlider;
 
@@ -30,7 +33,7 @@ public class UIManager : MonoBehaviour
     {
         playerController = playerController != null ? playerController : GameObject.FindWithTag("Player")?.GetComponent<PlayerController>();
 
-        if(playerController is not null && heartObjects.Count == 0)
+        if (playerController is not null && heartObjects.Count == 0)
         {
             UpdateHearts();
         }
@@ -53,6 +56,20 @@ public class UIManager : MonoBehaviour
         LeanTween.cancel(reloadBar);
         reloadBarBG.SetActive(false);
         LeanTween.scaleX(reloadBar, 1, 0);
+    }
+
+    public void Combo(float time)
+    {
+        LeanTween.cancel(comboBar);
+        LeanTween.scaleX(comboBar, 1, 0);
+        comboBarBG.SetActive(true);
+        LeanTween.scaleX(comboBar, 0, time).setOnComplete(ComboCallBack);
+    }
+
+    private void ComboCallBack()
+    {
+        comboBarBG.SetActive(false);
+        LeanTween.scaleX(comboBar, 1, 0);
     }
 
     public void UpdateHearts()

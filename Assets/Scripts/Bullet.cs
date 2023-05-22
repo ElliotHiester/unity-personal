@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    public bool decreaseSpeed;
+    [System.NonSerialized] public bool decreaseSpeed;
     private float speedDecreaseFactor;
 
     private void Start()

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using MilkShake;
 
 public class PlayerShooting : MonoBehaviour
 {
@@ -30,13 +31,18 @@ public class PlayerShooting : MonoBehaviour
 
     public GameObject gunOverlay;
     public GameObject gunPickup;
+    [SerializeField] protected ParticleSystem shootParticle;
 
     protected Rigidbody2D playerRb;
 
     private Coroutine reloadCoroutine;
 
+    protected Shaker cameraShake;
+    [SerializeField] protected ShakePreset shakePreset;
+
     protected virtual void Start()
-    {       
+    {
+        cameraShake = GameObject.FindGameObjectWithTag("Test").GetComponent<Shaker>();
         UIManager = GameObject.FindWithTag("UIManager")?.GetComponent<UIManager>();
 
         if (currentAmmo < 0) // if ammo has not been set by the pickup, set it to the max ammo
@@ -118,6 +124,9 @@ public class PlayerShooting : MonoBehaviour
         currentClipAmmo--;
         currentAmmo--;
 
+        cameraShake.Shake(shakePreset);
+
+        shootParticle.Play();
         GameObject bullet = Instantiate(bulletPrefab, shootPos.position, Quaternion.identity);
         //Destroy(bullet, 2f);
         Rigidbody2D bulletRb = bullet.GetComponent<Rigidbody2D>();

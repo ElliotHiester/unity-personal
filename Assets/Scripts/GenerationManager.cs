@@ -29,11 +29,19 @@ public class GenerationManager : MonoBehaviour
 
     private List<GameObject> placeholders = new List<GameObject>();
 
+    //enemy spawning vars
+    private float enemyTimer;
+    [SerializeField] [Min(0.02f)] private float enemySpawnRate;
+
+    [SerializeField] private float difficulty;
+
     // Start is called before the first frame update
     void Start()
     {
         repeatRate /= speed * Time.deltaTime; //scaling repeatRate with the speed
         startDelay /= speed * Time.deltaTime;
+
+        enemySpawnRate -= 0.02f * difficulty;
     }
 
     // Update is called once per frame
@@ -41,7 +49,7 @@ public class GenerationManager : MonoBehaviour
     {
         globalTimer += Time.deltaTime;
 
-        if (globalTimer >= 6.0f / (speed * Time.deltaTime)) //destroy after a set amount of seconds determined by the generation speed
+        if ((globalTimer >= 6.0f / (speed * Time.deltaTime)) || Input.GetKeyDown(KeyCode.DownArrow)) //destroy after a set amount of seconds determined by the generation speed
         {
             SpawnPlaceholder();
             ActivatePlaceholders();            
@@ -65,6 +73,14 @@ public class GenerationManager : MonoBehaviour
 
         } //timer end
 
+        enemyTimer += Time.deltaTime;
+
+        if(enemyTimer > enemySpawnRate)
+        {
+            SpawnPlaceholder();
+            enemyTimer = 0;
+        }
+
         //reverse direction if out of bounds
         if (transform.position.x > bounds || transform.position.x < -bounds || transform.position.y > bounds || transform.position.y < -bounds) 
         {
@@ -85,7 +101,6 @@ public class GenerationManager : MonoBehaviour
     public void ChangeDirection()
     {
         direction = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0).normalized;
-        SpawnPlaceholder();
     }
 
     public void ChangeSize()
@@ -165,13 +180,4 @@ public class GenerationManager : MonoBehaviour
             Destroy(placeholder);
         }
     }
-
-    /*
-     * Chests
-     * Shops
-     * Enemies
-     * 
-     * 
-     * 
-     * */
 }

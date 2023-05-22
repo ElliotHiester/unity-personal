@@ -222,7 +222,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weapon: {fileID: 174867828750489003, guid: 9792e36330346414eb6acddee58638d6, type: 3}
-  storedAmmo: -1
 --- !u!61 &7235511128673219683
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -236,7 +235,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.09627053, y: 0.64284074}
+  m_Offset: {x: -0.21308249, y: 1.4980559}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -247,7 +246,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.5375478, y: 3.851282}
+  m_Size: {x: 0.7711717, y: 5.5617123}
   m_EdgeRadius: 0
 --- !u!1 &2842702644130844274
 GameObject:

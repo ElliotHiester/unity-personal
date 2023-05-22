@@ -19,8 +19,8 @@ public class CameraFollow : MonoBehaviour
         Vector3 centerOfScreen = new Vector3(Screen.width / 2, Screen.height / 2, 0);
         Vector3 distanceFromCenter = centerOfScreen - Input.mousePosition; //mouse distance from center of screen
 
-        float offsetFactorX = -250f;
-        float offsetFactorY = -150f;
+        float offsetFactorX = -150f;
+        float offsetFactorY = -100f;
 
         Vector3 playerPos = player.transform.position;
 

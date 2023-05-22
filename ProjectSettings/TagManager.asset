@@ -15,6 +15,7 @@ TagManager:
   - EnemyBullet
   - Chest
   - GunList
+  - Test
   layers:
   - Default
   - TransparentFX

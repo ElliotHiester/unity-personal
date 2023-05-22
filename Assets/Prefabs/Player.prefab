@@ -149,6 +149,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 5
   health: 5
+  maxComboTime: 4
 --- !u!114 &3215766524828695818
 MonoBehaviour:
   m_ObjectHideFlags: 0
