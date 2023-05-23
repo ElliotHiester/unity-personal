@@ -133,11 +133,8 @@ public class ChargingEnemy : MonoBehaviour
     }
     public void Aggressive()
     {
-        if (!colliding)
-        {
-            var step = aggMoveSpeed * Time.deltaTime;
-            transform.position = Vector3.MoveTowards(transform.position, player.transform.position, step);
-        }
+        var step = aggMoveSpeed * Time.deltaTime;
+        transform.position = Vector3.MoveTowards(transform.position, player.transform.position, step);
     }
 
     public void TakeDamage(int amount = 1)
@@ -153,7 +150,11 @@ public class ChargingEnemy : MonoBehaviour
 
     public void Die(bool spawnPickup = true)
     {
-        if(spawnPickup)
+        var endPlaceholder = GameObject.FindGameObjectWithTag("EndPlaceholder");
+
+        endPlaceholder.transform.position = transform.position;
+
+        if (spawnPickup)
             SpawnPickup();
         var playerScript = player.GetComponent<PlayerController>();
         playerScript.KilledEnemy();

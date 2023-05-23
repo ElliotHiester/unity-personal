@@ -4,12 +4,14 @@ using System.Linq;
 using System;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using UnityEngine.SceneManagement;
 
 public class GenerationManager : MonoBehaviour
 {
     [SerializeField] private GameObject playerPrefab;
     [SerializeField] private GameObject enemyPrefab;
     [SerializeField] private GameObject chargingEnemyPrefab;
+    [SerializeField] private GameObject clusterEnemyPrefab;
     [SerializeField] private GameObject placeholder;
     [SerializeField] private GameObject chestPrefab;
     [SerializeField] [Range(0f, 100f)] private float chestPercentage;
@@ -34,8 +36,13 @@ public class GenerationManager : MonoBehaviour
     private float enemyTimer;
     [SerializeField] [Min(0.02f)] private float enemySpawnRate;
     [SerializeField] [Range(0f, 100f)]private float chargingEnemyPercent;
+    [SerializeField] [Range(0f, 100f)] private float clusterEnemyPercent;
 
     [SerializeField] private float difficulty;
+
+    [SerializeField] private UIManager UIManager;
+
+    [SerializeField] private GameObject endPlaceholder;
 
     // Start is called before the first frame update
     void Start()
@@ -51,10 +58,12 @@ public class GenerationManager : MonoBehaviour
     {
         globalTimer += Time.deltaTime;
 
-        if ((globalTimer >= 6.0f / (speed * Time.deltaTime)) || Input.GetKeyDown(KeyCode.DownArrow)) //destroy after a set amount of seconds determined by the generation speed
+        if ((globalTimer >= 5.0f / (speed * Time.deltaTime)) || Input.GetKeyDown(KeyCode.DownArrow)) //destroy after a set amount of seconds determined by the generation speed
         {
+            UIManager.generatingScreen.SetActive(false);
             SpawnPlaceholder();
-            ActivatePlaceholders();            
+            ActivatePlaceholders();
+            Instantiate(endPlaceholder, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
 
@@ -178,11 +187,12 @@ public class GenerationManager : MonoBehaviour
 
         foreach(var placeholder in placeholders) 
         {
-            var generationManager = GameObject.FindGameObjectWithTag("GenerationManager");
-            var genScript = GetComponent<GenerationManager>();
-
             var enemyChance = Random.Range(1, 100);
-            if(enemyChance <= chargingEnemyPercent && genScript.difficulty >= 10)
+            if(enemyChance <= clusterEnemyPercent && difficulty >= 10)
+            {
+                Instantiate(clusterEnemyPrefab, placeholder.transform.position, Quaternion.identity);
+            }
+            else if(enemyChance <= chargingEnemyPercent && difficulty >= 5)
             {
                 Instantiate(chargingEnemyPrefab, placeholder.transform.position, Quaternion.identity);
             }

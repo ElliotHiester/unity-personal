@@ -239,14 +239,22 @@ public class Enemy : MonoBehaviour
 
         if (health <= 0)
         {
-            SpawnPickup();
-            var playerScript = player.GetComponent<PlayerController>();
-            playerScript.KilledEnemy();
-            var particle = Instantiate(deathParticle, transform.position, Quaternion.identity);
-            Destroy(particle, 3f);
-            particle.Play();
-            Destroy(gameObject);
+            Die();
         }
+    }
+
+    public void Die()
+    {
+        var endPlaceholder = GameObject.FindGameObjectWithTag("EndPlaceholder");
+
+        endPlaceholder.transform.position = transform.position;
+        SpawnPickup();
+        var playerScript = player.GetComponent<PlayerController>();
+        playerScript.KilledEnemy();
+        var particle = Instantiate(deathParticle, transform.position, Quaternion.identity);
+        Destroy(particle, 3f);
+        particle.Play();
+        Destroy(gameObject);
     }
 
     IEnumerator DamageFlash()
@@ -258,29 +266,32 @@ public class Enemy : MonoBehaviour
 
     public void SpawnPickup()
     {
-        var playerScript = player.GetComponent<PlayerController>();
-        var minPickupChance = Mathf.Pow(pickupChanceFactor, playerScript.killCombo);
-
-        var pickupChance = Random.Range(minPickupChance, maxPickupChance);
-
-        if(pickupChance >= maxPickupChance - 1f)
+        var playerScript = player?.GetComponent<PlayerController>();
+        if(playerScript != null)
         {
-            if(playerScript.health != playerScript.maxHealth)
+            var minPickupChance = Mathf.Pow(pickupChanceFactor, playerScript.killCombo);
+
+            var pickupChance = Random.Range(minPickupChance, maxPickupChance);
+
+            if (pickupChance >= maxPickupChance - 1f)
             {
-                var minHealthChance = Mathf.Pow(healthChanceFactor, playerScript.killCombo);
-                var healthPickupChance = Random.Range(minHealthChance, maxHealthChance);
-                if(healthPickupChance >= maxHealthChance - 1f)
+                if (playerScript.health != playerScript.maxHealth)
                 {
-                    Instantiate(healthPickup, transform.position, Quaternion.identity);
+                    var minHealthChance = Mathf.Pow(healthChanceFactor, playerScript.killCombo);
+                    var healthPickupChance = Random.Range(minHealthChance, maxHealthChance);
+                    if (healthPickupChance >= maxHealthChance - 1f)
+                    {
+                        Instantiate(healthPickup, transform.position, Quaternion.identity);
+                    }
+                    else
+                    {
+                        Instantiate(ammoPickup, transform.position, Quaternion.identity);
+                    }
                 }
                 else
                 {
                     Instantiate(ammoPickup, transform.position, Quaternion.identity);
                 }
-            } 
-            else
-            {
-                Instantiate(ammoPickup, transform.position, Quaternion.identity);
             }
         }
     }

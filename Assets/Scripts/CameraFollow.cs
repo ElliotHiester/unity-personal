@@ -9,7 +9,7 @@ public class CameraFollow : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
-        player ??= GameObject.FindWithTag("Player"); //if player is null assign the player object to player
+        player = player != null ? player : GameObject.FindWithTag("Player"); //if player is null assign the player object to player
 
         if (player is not null) OffsetCamera();
     }
@@ -27,7 +27,17 @@ public class CameraFollow : MonoBehaviour
         float offsetX = distanceFromCenter.x / offsetFactorX;
         float offsetY = distanceFromCenter.y / offsetFactorY;
 
-        //move camera to players position + offset based on where the mouse is relative to the center of the screen
-        transform.position = new Vector3(playerPos.x + offsetX, playerPos.y + offsetY, transform.position.z); 
+        var playerScript = player.GetComponent<PlayerController>();
+
+        if(!playerScript.gameOver)
+        {
+            //move camera to players position + offset based on where the mouse is relative to the center of the screen
+            transform.position = new Vector3(playerPos.x + offsetX, playerPos.y + offsetY, transform.position.z);
+        }
+        else
+        {
+            transform.position = new Vector3(playerPos.x, playerPos.y, transform.position.z);
+        }
+        
     }
 }

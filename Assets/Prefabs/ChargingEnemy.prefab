@@ -149,11 +149,11 @@ MonoBehaviour:
   health: 3
   idleMoveSpeed: 0.011
   aggMoveSpeed: 10
-  rayDistance: 25
+  rayDistance: 20
   ammoPickup: {fileID: 8430894905181325049, guid: b76798a364a0a574a9d20564e39192c3, type: 3}
   healthPickup: {fileID: 8430894905181325049, guid: d37ab152323b9764497ee11c0f9e1a4a, type: 3}
-  maxPickupChance: 10
-  pickupChanceFactor: 10
+  maxPickupChance: 13
+  pickupChanceFactor: 1.1
   healthChanceFactor: 1.1
   maxHealthChance: 7
   deathParticle: {fileID: 4394226698376070134, guid: ca63df4246ca7794d87a8e227942867e, type: 3}

@@ -151,7 +151,7 @@ MonoBehaviour:
   reloadTime: 0.5
   maxClipAmmo: 20
   maxAmmo: 300
-  shotSpread: 5
+  shotSpread: 3
   kickBack: 300
   isAutomatic: 0
   gunOverlay: {fileID: 5604235547546440248, guid: f3fab8a97b4551148a3e73ceeea6e62a, type: 3}

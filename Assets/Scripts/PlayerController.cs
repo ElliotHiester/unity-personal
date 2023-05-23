@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -14,8 +15,11 @@ public class PlayerController : MonoBehaviour
 
     public int maxHealth;
     public int health;
+    [SerializeField] private bool godMode;
 
-    private bool gameOver;
+    [System.NonSerialized] public bool gameOver;
+
+    [SerializeField] private ParticleSystem deathParticle;
 
     [System.NonSerialized] public int killCombo = 0;
     private float killComboTimer;
@@ -56,7 +60,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.CompareTag("EnemyBullet"))
+        if(collision.gameObject.CompareTag("EnemyBullet") && !gameOver)
         {
             TakeDamage();
         }
@@ -64,12 +68,18 @@ public class PlayerController : MonoBehaviour
 
     public void TakeDamage(int amount = 1)
     {
-        health -= amount;
+        if(!godMode)
+            health -= amount;
         UIManager.UpdateHearts();
 
         if (health <= 0)
         {
-            gameOver = true; //TEMPORARY
+            gameOver = true;
+            UIManager.gameOverBG.SetActive(true);
+            var particle = Instantiate(deathParticle, transform.position, Quaternion.identity);
+            particle.Play();
+            Destroy(particle, 3f);
+            Destroy(gameObject);
         }
     }
 
@@ -79,6 +89,11 @@ public class PlayerController : MonoBehaviour
         {
             var chestScript = collision.gameObject.GetComponent<Chest>();
             chestScript.Opened();
+        }
+
+        if(collision.gameObject.CompareTag("EndPortal"))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
     }
 

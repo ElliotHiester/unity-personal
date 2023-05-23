@@ -5,11 +5,11 @@ using UnityEngine;
 
 public class PlayerGunManager : MonoBehaviour
 {
-    [System.NonSerialized] public List<GameObject> gunList = new();
+    [NonSerialized] public List<GameObject> gunList = new();
 
     public GameObject startGun;
 
-    [System.NonSerialized] public int currentGunIndex;
+    [NonSerialized] public int currentGunIndex;
 
     [SerializeField] private int maxNumGuns;
 
@@ -18,6 +18,8 @@ public class PlayerGunManager : MonoBehaviour
 
     private UIManager UIManager;
     private UIGunManager UIGunManager;
+
+    private PlayerController playerScript;
 
     private bool isPickupPressed = false;
 
@@ -38,42 +40,47 @@ public class PlayerGunManager : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            isPickupPressed = true;
-        } 
-        if(Input.GetKeyUp(KeyCode.Space))
-        {
-            isPickupPressed = false;
-        }
+        playerScript = playerScript != null ? playerScript : GameObject.FindWithTag("Player").GetComponent<PlayerController>();
 
-        int previousSelected = currentGunIndex;
-
-        if (Input.GetAxis("Mouse ScrollWheel") > 0f)
+        if (!playerScript.gameOver)
         {
-            if (currentGunIndex >= gunList.Count - 1)
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                isPickupPressed = true;
+            }
+            if (Input.GetKeyUp(KeyCode.Space))
+            {
+                isPickupPressed = false;
+            }
+
+            int previousSelected = currentGunIndex;
+
+            if (Input.GetAxis("Mouse ScrollWheel") > 0f)
+            {
+                if (currentGunIndex >= gunList.Count - 1)
+                    currentGunIndex = 0;
+                else
+                    currentGunIndex++;
+            }
+            if (Input.GetAxis("Mouse ScrollWheel") < 0f)
+            {
+                if (currentGunIndex <= 0)
+                    currentGunIndex = gunList.Count - 1;
+                else
+                    currentGunIndex--;
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha1))
                 currentGunIndex = 0;
-            else
-                currentGunIndex++;
-        }
-        if (Input.GetAxis("Mouse ScrollWheel") < 0f)
-        {
-            if (currentGunIndex <= 0)
-                currentGunIndex = gunList.Count - 1;
-            else
-                currentGunIndex--;
-        }
+            else if (Input.GetKeyDown(KeyCode.Alpha2) && gunList.Count >= 2)
+                currentGunIndex = 1;
+            else if (Input.GetKeyDown(KeyCode.Alpha3) && gunList.Count >= 3)
+                currentGunIndex = 2;
 
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-            currentGunIndex = 0;
-        else if (Input.GetKeyDown(KeyCode.Alpha2) && gunList.Count >= 2)
-            currentGunIndex = 1;
-        else if (Input.GetKeyDown(KeyCode.Alpha3) && gunList.Count >= 3)
-            currentGunIndex = 2;
-
-        if(previousSelected != currentGunIndex)
-        {
-            SelectGun();
+            if (previousSelected != currentGunIndex)
+            {
+                SelectGun();
+            }
         }
             
     }

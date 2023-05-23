@@ -5106,7 +5106,7 @@ MonoBehaviour:
   healthPickup: {fileID: 8430894905181325049, guid: d37ab152323b9764497ee11c0f9e1a4a, type: 3}
   maxPickupChance: 8
   pickupChanceFactor: 1.1
-  healthChanceFactor: 1.1
+  healthChanceFactor: 1.05
   maxHealthChance: 7
   deathParticle: {fileID: 4394226698376070134, guid: 5bf35ee24f793014e94969df8fcb1062, type: 3}
   enemyColor: {r: 0.83137256, g: 0.16862746, b: 0.16862746, a: 1}
@@ -5228,7 +5228,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shootPos: {fileID: 8743036512403830715}
   origin: {fileID: 3881363277127308439}
-  bulletPrefab: {fileID: 1164284738479998248, guid: 2a3fadb5dfa256c4da4ae97157e913cf, type: 3}
+  bulletPrefab: {fileID: 1164284738479998248, guid: 92b7dc7c02fc24641b5bbf4d3e471473, type: 3}
   shotSpread: 10
   bulletForce: 15
   shootParticle: {fileID: 6169870722666154225}

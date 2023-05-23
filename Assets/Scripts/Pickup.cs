@@ -30,13 +30,16 @@ public abstract class Pickup : MonoBehaviour
         }
 
         player = player != null ? player : GameObject.FindGameObjectWithTag("Player");
-        var distance = (player.transform.position - transform.position).magnitude;
-
-        if (distance <= attractDistance)
+        if (player != null)
         {
-            var step = speed * Time.deltaTime / distance;
+            var distance = (player.transform.position - transform.position).magnitude;
 
-            transform.position = Vector2.MoveTowards(transform.position, player.transform.position, step);
+            if (distance <= attractDistance)
+            {
+                var step = speed * Time.deltaTime / distance;
+
+                transform.position = Vector2.MoveTowards(transform.position, player.transform.position, step);
+            }
         }
     }
 

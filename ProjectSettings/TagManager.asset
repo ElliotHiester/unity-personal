@@ -16,6 +16,8 @@ TagManager:
   - Chest
   - GunList
   - Test
+  - EndPlaceholder
+  - EndPortal
   layers:
   - Default
   - TransparentFX

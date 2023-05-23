@@ -34,6 +34,8 @@ public class PlayerShooting : MonoBehaviour
     [SerializeField] protected ParticleSystem shootParticle;
 
     protected Rigidbody2D playerRb;
+    private GameObject player;
+    private PlayerController playerScript;
 
     private Coroutine reloadCoroutine;
 
@@ -56,40 +58,45 @@ public class PlayerShooting : MonoBehaviour
     // Update is called once per frame
     protected virtual void Update()
     {
-        playerRb ??= GameObject.FindWithTag("Player")?.GetComponent<Rigidbody2D>();
+        playerRb = playerRb != null ? playerRb : GameObject.FindWithTag("Player")?.GetComponent<Rigidbody2D>();
+        player = player != null ? player : GameObject.FindWithTag("Player");
+        playerScript = playerScript != null ? playerScript : GameObject.FindWithTag("Player")?.GetComponent<PlayerController>();
 
         UIManager.maxAmmoDisplay.text = currentAmmo.ToString() + "/" + maxAmmo.ToString();
         UIManager.clipAmmoSlider.maxValue = maxClipAmmo;
         UIManager.clipAmmoSlider.value = currentClipAmmo;
 
-        fireCounter += Time.deltaTime;
-        if ((currentAmmo > 0) && !isReloading && (fireCounter > fireRate)) 
+        if (!playerScript.gameOver)
         {
-            if (currentClipAmmo == 0 && Input.GetMouseButton(0))
+            fireCounter += Time.deltaTime;
+            if ((currentAmmo > 0) && !isReloading && (fireCounter > fireRate))
+            {
+                if (currentClipAmmo == 0 && Input.GetMouseButton(0))
+                {
+                    Reload();
+                }
+                else
+                {
+                    if (!isAutomatic && Input.GetMouseButtonDown(0))
+                    {
+                        fireCounter = 0.0f;
+                        Shoot();
+                    }
+
+                    if (isAutomatic && Input.GetMouseButton(0))
+                    {
+                        fireCounter = 0.0f;
+                        Shoot();
+                    }
+                }
+            }
+
+            if (!isReloading
+                && (currentClipAmmo != maxClipAmmo)
+                && ((currentClipAmmo < 0 && currentAmmo != 0 && Input.GetMouseButtonDown(0)) || Input.GetMouseButtonDown(1) && currentAmmo != 0))
             {
                 Reload();
             }
-            else
-            {
-                if (!isAutomatic && Input.GetMouseButtonDown(0))
-                {
-                    fireCounter = 0.0f;
-                    Shoot();
-                }
-
-                if (isAutomatic && Input.GetMouseButton(0))
-                {
-                    fireCounter = 0.0f;
-                    Shoot();
-                }
-            }
-        }
-
-        if (!isReloading
-            && (currentClipAmmo != maxClipAmmo)
-            && ((currentClipAmmo < 0 && currentAmmo != 0 && Input.GetMouseButtonDown(0)) || Input.GetMouseButtonDown(1) && currentAmmo != 0))
-        {
-            Reload();
         }
     }
 

@@ -9,7 +9,7 @@ public class Bullet : MonoBehaviour
 
     private void Start()
     {
-        speedDecreaseFactor = Random.Range(994f, 998f);
+        speedDecreaseFactor = Random.Range(993f, 998f);
     }
     private void Update()
     {

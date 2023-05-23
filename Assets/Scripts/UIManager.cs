@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using DentedPixel;
 using System;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
@@ -29,6 +30,13 @@ public class UIManager : MonoBehaviour
     [SerializeField] private int maxHealth = 5;
     [SerializeField] private int currentHealth;
 
+    public GameObject gameOverBG;
+    public GameObject generatingScreen;
+
+    private void Start()
+    {
+        generatingScreen.SetActive(true);
+    }
     void Update()
     {
         playerController = playerController != null ? playerController : GameObject.FindWithTag("Player")?.GetComponent<PlayerController>();
@@ -103,5 +111,9 @@ public class UIManager : MonoBehaviour
             heart = heartObjects[i];
             heart.GetComponent<Image>().color = i < currentHealth ? redHeart : greyedHeart;
         }
+    }
+    public void Restart()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
